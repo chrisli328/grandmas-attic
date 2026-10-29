@@ -1,0 +1,19 @@
+{
+  "_note": "Tiling textures: size = metres covered by one texture repeat on UV0 (UV0 is in metres). tint multiplies the texture; tint src keeps the model's own colour divided by mean, the texture's mean linear colour, so the texture adds only its light and dark variation.",
+  "M_wallpaper": {"tex": "wallpaper_lemon.webp", "size": [0.62, 0.62], "tint": "#ffffff"},
+  "M_wainscot": {"tex": "wainscot.webp", "size": [0.36, 0.36], "tint": "src", "mean": [0.2031, 0.2098, 0.1374]},
+  "M_tile_wall": {"tex": "tile_wall.webp", "size": [1.0, 0.6], "tint": "#ffffff"},
+  "M_floor_check": {"tex": "floor_check.webp", "size": [0.6, 0.6], "tint": "#ffffff"},
+  "M_ceiling": {"tex": "ceiling_light.webp", "size": [0.66, 0.66], "tint": "src", "mean": [0.8443, 0.7643, 0.6176]},
+  "M_beam": {"tex": "beam_light.webp", "size": [0.55, 0.55], "tint": "src", "mean": [0.6215, 0.4022, 0.2069]},
+  "M_butcher": {"tex": "woodgrain.webp", "size": [0.45, 0.45], "tint": "src", "mean": [0.6008, 0.6008, 0.6008]},
+  "M_pine": {"tex": "woodgrain.webp", "size": [0.45, 0.45], "tint": "src", "mean": [0.6008, 0.6008, 0.6008]},
+  "M_pine_light": {"tex": "woodgrain.webp", "size": [0.6, 0.6], "tint": "src", "mean": [0.6008, 0.6008, 0.6008]},
+  "M_sack_cloth": {"tex": "sack_cloth.webp", "size": [0.12, 0.12], "tint": "src", "mean": [0.5236, 0.5236, 0.5236]},
+  "M_gingham_red": {"tex": "gingham_red.webp", "size": [0.2, 0.2], "tint": "#ffffff"},
+  "M_gingham_blue": {"tex": "gingham_blue.webp", "size": [0.2, 0.2], "tint": "#ffffff"},
+  "M_apron_floral": {"tex": "apron_floral.webp", "size": [0.22, 0.22], "tint": "#ffffff"},
+  "M_cardboard": {"tex": "cardboard.webp", "size": [0.45, 0.45], "tint": "src", "mean": [0.46, 0.2355, 0.1039]},
+  "M_newspaper": {"tex": "newspaper.webp", "size": [0.4, 0.4], "tint": "#ffffff"},
+  "M_rug": {"tex": "rug_braid.webp", "size": [0.4, 0.375], "tint": "#ffffff"}
+}

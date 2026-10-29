@@ -1,0 +1,1 @@
+{"models":["models/room_baked_d.glb","models/room_live_d.glb"],"lightmaps":{"shell":{"on":"lm/shell_on.webp","dark":"lm/shell_on.webp","scale":1.75},"furn":{"on":"lm/furn_on.webp","dark":"lm/furn_on.webp","scale":1.75}},"attach":{}}

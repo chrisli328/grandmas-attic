@@ -1,0 +1,170 @@
+{
+  "id": "kitchen-vs1",
+  "title": "Grandma's Kitchen",
+  "story_for_agents": "Grandma has moved out; her sunny kitchen is half packed. You and her ginger cat recover the memory of baking together. The fridge door is covered in your crayon drawings and a photo of you as a toddler, a big apron and a tiny one hang by the back door, a step stool with floury handprints stands at the counter, and the height marks on the door casing have little crayon stars. The cat sleeps in a packing box on the cookie cutters until milk wakes it. You roll the dough, cut stars, bake them on the sun mark the picture recipe shows, and put the cookies on grandma's plate: the recipe card on the wall turns round by itself into the photo of the two of you baking (the memory). The cat leaps for the cookies, knocks the flour sack off the dresser and bursts it in the sunbeam, then leaves white paw prints to the dark gap under the fridge, where it has hidden its toys and the back-door key (the empty hook on the key board has ginger fur on it). The rolling pin sweeps the key out and the back door opens onto the garden and the greenhouse. No words: the room, the cat, the light and the sounds tell it.",
+  "coords": "Blender metres, Z up: +Y north (back door wall), -Y south (range and baking counter), +X east (window and sink), -X west (dresser and table). Camera at (0, 0, 1.30). A mesh belongs to the first visible object that lists it, so the pickups come first; fx.js moves ownership when a prop changes place (tray into the oven, cat to the dresser and the fridge). Zones are invisible tap boxes for small or flat things (the dial's control strip, the gap under the fridge, the height marks).",
+  "camera": { "eye": [0, 0, 1.3], "startYaw": 0, "startPitch": -6, "fov": 78, "back": 0.55 },
+  "hints": 3,
+  "intro": [{ "fx": "intro" }],
+  "pickNodes": { "cutterPick": "cutter", "pinPick": "rolling_pin" },
+  "focusFirst": ["milkPour", "pinRoll", "cutStars", "ovenIn", "gapSweep"],
+  "memoryFlag": "memory",
+  "coach": { "target": "door", "icon": "key" },
+  "items": {
+    "milk": {},
+    "cutter": {},
+    "pin": {},
+    "tray": {},
+    "cookies": {},
+    "key": {}
+  },
+  "thoughts": [],
+  "objects": [
+    {
+      "id": "cutterPick", "meshes": ["cutter"], "state": "hidden",
+      "rules": [{ "if": { "state": "shown" }, "then": [{ "set": { "state": "hidden" } }, { "set": { "obj": "box", "state": "empty" } }, { "give": "cutter" }] }]
+    },
+    {
+      "id": "pinPick", "meshes": ["rolling_pin"], "state": "shown",
+      "rules": [{ "if": { "state": "shown" }, "then": [{ "set": { "state": "hidden" } }, { "give": "pin" }] }]
+    },
+    {
+      "id": "door", "meshes": ["door"], "focus": { "at": [-0.2, 1.9, 1.05], "r": 0.75 }, "state": "locked",
+      "rules": [
+        { "if": { "state": "locked", "using": "key" }, "then": [{ "set": { "state": "open" } }, { "fx": "doorOpen" }, { "win": true }] },
+        { "if": { "state": "locked" }, "then": [{ "anim": "rattle" }, { "think": "key" }] }
+      ]
+    },
+    {
+      "id": "fridge", "meshes": ["fridge", "fridge_door", "milk_bottle", "fridge_top"], "focus": { "at": [0.82, 1.25, 1.0], "r": 0.7 }, "state": "full",
+      "rules": [
+        { "if": { "state": "full" }, "then": [{ "fx": "fridgeOpen" }, { "set": { "state": "taken" } }, { "give": "milk" }] },
+        { "if": { "state": "taken" }, "then": [{ "anim": "fridgePeek" }] }
+      ]
+    },
+    {
+      "id": "catBowl", "meshes": ["cat_bowl", "bowl_milk"], "focus": { "at": [-0.62, -0.36, 0.04], "r": 0.28 }, "state": "empty",
+      "rules": [
+        { "if": { "state": "empty", "using": "milk" }, "then": [{ "set": { "state": "full" } }, { "flag": "milkGiven" }, { "fx": "milkPour" }, { "set": { "obj": "cat", "state": "dresser" } }, { "set": { "obj": "box", "state": "free" } }, { "set": { "obj": "cutterPick", "state": "shown" } }, { "fx": "catWake" }] },
+        { "if": { "state": "empty" }, "then": [{ "anim": "look" }, { "think": "milk" }] },
+        { "if": { "state": "full" }, "then": [{ "anim": "look" }] }
+      ]
+    },
+    {
+      "id": "cat", "meshes": ["cat_body", "cat_head", "cat_eye_l", "cat_eye_r", "cat_leg_fl", "cat_leg_fr", "cat_leg_bl", "cat_leg_br", "cat_tail_1", "cat_tail_2", "cat_tail_3", "cat_tail_4"],
+      "focus": { "at": [-1.09, -0.74, 0.18], "r": 0.35 }, "state": "box",
+      "rules": [
+        { "if": { "state": "box", "using": "milk" }, "then": [{ "set": { "obj": "catBowl", "state": "full" } }, { "flag": "milkGiven" }, { "fx": "milkPour" }, { "set": { "state": "dresser" } }, { "set": { "obj": "box", "state": "free" } }, { "set": { "obj": "cutterPick", "state": "shown" } }, { "fx": "catWake" }] },
+        { "if": { "state": "box" }, "then": [{ "anim": "snooze" }, { "think": "milk" }] },
+        { "if": { "state": "dresser" }, "then": [{ "anim": "purr" }] },
+        { "if": { "state": "gap", "using": "pin" }, "then": [{ "set": { "obj": "gap", "state": "swept" } }, { "flag": "swept" }, { "fx": "gapSweep" }, { "set": { "state": "mouse" } }, { "give": "key" }] },
+        { "if": { "state": "gap" }, "then": [{ "anim": "paw" }, { "think": "pin" }] },
+        { "if": { "state": "mouse" }, "then": [{ "anim": "purr" }] }
+      ]
+    },
+    {
+      "id": "box", "meshes": ["box_cat", "cutter_tin", "cutter"], "focus": { "at": [-1.09, -0.74, 0.15], "r": 0.32 }, "state": "cat",
+      "rules": [
+        { "if": { "state": "cat" }, "then": [{ "anim": "snooze" }, { "think": "milk" }] },
+        { "if": { "state": "free" }, "then": [{ "set": { "obj": "cutterPick", "state": "hidden" } }, { "set": { "state": "empty" } }, { "give": "cutter" }] },
+        { "if": { "state": "empty" }, "then": [{ "anim": "wobble" }] }
+      ]
+    },
+    { "id": "rail", "meshes": ["utensil_rail"], "focus": { "at": [-0.78, -1.86, 1.3], "r": 0.35 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    {
+      "id": "bowl", "meshes": ["mixing_bowl", "dough_ball"], "focus": { "at": [-0.4, -1.6, 0.98], "r": 0.28 }, "state": "dough",
+      "rules": [
+        { "if": { "state": "dough", "using": "pin" }, "consume": false, "then": [{ "set": { "state": "empty" } }, { "set": { "obj": "board", "state": "flat" } }, { "flag": "rolled" }, { "fx": "pinRoll" }] },
+        { "if": { "state": "dough" }, "then": [{ "anim": "squish" }, { "think": "pin" }] },
+        { "if": { "state": "empty" }, "then": [{ "anim": "wobble" }] }
+      ]
+    },
+    {
+      "id": "board", "meshes": ["pastry_board", "dough_sheet", "dough_cut"], "focus": { "at": [-0.95, -1.6, 0.94], "r": 0.28 }, "state": "bare",
+      "rules": [
+        { "if": { "state": "flat", "using": "cutter" }, "then": [{ "set": { "state": "cut" } }, { "flag": "cut" }, { "set": { "obj": "trayObj", "state": "hidden" } }, { "fx": "cutStars" }, { "give": "tray" }] },
+        { "if": { "state": "flat" }, "then": [{ "anim": "squish" }, { "think": "cutter" }] },
+        { "if": { "state": "bare" }, "then": [{ "anim": "look" }] },
+        { "if": { "state": "cut" }, "then": [{ "anim": "look" }] }
+      ]
+    },
+    {
+      "id": "trayObj", "meshes": ["tray", "stars_raw"], "focus": { "at": [-1.5, -1.6, 0.94], "r": 0.28 }, "state": "empty",
+      "rules": [{ "if": { "state": "empty" }, "then": [{ "anim": "nudge" }] }]
+    },
+    {
+      "id": "dial", "meshes": ["oven_dial"], "zone": [0.2, -1.31, 0.68, 0.4, -1.24, 0.88], "focus": { "at": [0.3, -1.3, 0.775], "r": 0.16 }, "state": "off",
+      "rules": [
+        { "if": { "flags": ["baked"] }, "then": [{ "anim": "look" }] },
+        { "if": { "state": "off" }, "then": [{ "set": { "state": "snow" } }, { "fx": "dialSnow" }] },
+        { "if": { "state": "snow" }, "then": [{ "set": { "state": "moon" } }, { "fx": "dialMoon" }] },
+        { "if": { "state": "moon", "flags": ["trayIn"] }, "then": [{ "set": { "state": "sun" } }, { "flag": "baked" }, { "set": { "obj": "oven", "state": "baked" } }, { "fx": "dialSun" }, { "fx": "bake" }] },
+        { "if": { "state": "moon" }, "then": [{ "set": { "state": "sun" } }, { "flag": "hot" }, { "fx": "dialSun" }] },
+        { "if": { "state": "sun" }, "then": [{ "set": { "state": "off" } }, { "unflag": "hot" }, { "fx": "dialFlame" }] }
+      ]
+    },
+    {
+      "id": "oven", "meshes": ["range", "oven_door"], "focus": { "at": [0.3, -1.3, 0.5], "r": 0.45 }, "state": "empty",
+      "rules": [
+        { "if": { "state": "empty", "using": "tray", "flags": ["hot"] }, "then": [{ "set": { "state": "baked" } }, { "flag": "trayIn" }, { "flag": "baked" }, { "fx": "ovenIn" }, { "fx": "bake" }] },
+        { "if": { "state": "empty", "using": "tray" }, "then": [{ "set": { "state": "tray" } }, { "flag": "trayIn" }, { "fx": "ovenIn" }] },
+        { "if": { "state": "empty" }, "then": [{ "anim": "ovenPeek" }, { "think": "tray" }] },
+        { "if": { "state": "tray" }, "then": [{ "anim": "dialHint" }] },
+        { "if": { "state": "baked" }, "then": [{ "set": { "state": "done" } }, { "fx": "cookiesOut" }, { "give": "cookies" }] },
+        { "if": { "state": "done" }, "then": [{ "anim": "look" }] }
+      ]
+    },
+    {
+      "id": "plate", "meshes": ["table_plate", "cookies_pile"], "focus": { "at": [-1.55, 0.6, 0.8], "r": 0.26 }, "state": "empty",
+      "rules": [
+        { "if": { "state": "empty", "using": "cookies" }, "then": [{ "set": { "state": "served" } }, { "flag": "served" }, { "fx": "serve" }, { "flag": "memory" }, { "set": { "obj": "card", "state": "photo" } }, { "set": { "obj": "sack", "state": "hidden" } }, { "set": { "obj": "flour", "state": "shown" } }, { "set": { "obj": "cat", "state": "gap" } }, { "set": { "obj": "gap", "state": "cat" } }, { "fx": "flourBurst" }] },
+        { "if": { "state": "empty" }, "then": [{ "anim": "look" }, { "think": "cookies" }] },
+        { "if": { "state": "served" }, "then": [{ "anim": "look" }] }
+      ]
+    },
+    { "id": "card", "meshes": ["recipe_card", "card_nail"], "focus": { "at": [-1.884, 0.6, 1.36], "r": 0.22 }, "state": "recipe", "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "table", "meshes": ["table", "chair", "child_stool", "cups", "sugar_jar"], "focus": { "at": [-1.5, 0.6, 0.75], "r": 0.6 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "sack", "meshes": ["flour_sack", "tea_towel_top"], "focus": { "at": [-1.76, -0.6, 2.15], "r": 0.36 }, "state": "top", "rules": [{ "then": [{ "anim": "sackPuff" }] }] },
+    {
+      "id": "flour", "meshes": ["flour_sack_burst", "flour_spill", "paw_1", "paw_2", "paw_3", "paw_4", "paw_5", "paw_6", "paw_7", "paw_8"], "focus": { "at": [-0.3, 0.45, 0.0], "r": 0.8 }, "state": "hidden",
+      "rules": [{ "if": { "state": "shown" }, "then": [{ "anim": "floorPuff" }] }]
+    },
+    {
+      "id": "gap", "meshes": ["key", "toy_mouse", "hoard_bits"], "zone": [0.5, 1.12, -0.02, 1.15, 1.42, 0.12], "zoneOff": ["swept"], "focus": { "at": [0.82, 1.24, 0.06], "r": 0.34 }, "state": "dark",
+      "rules": [
+        { "if": { "state": "cat", "using": "pin" }, "then": [{ "set": { "state": "swept" } }, { "flag": "swept" }, { "fx": "gapSweep" }, { "set": { "obj": "cat", "state": "mouse" } }, { "give": "key" }] },
+        { "if": { "state": "cat" }, "then": [{ "anim": "paw" }, { "think": "pin" }] },
+        { "if": { "state": "dark" }, "then": [{ "anim": "gapGlint" }] },
+        { "if": { "state": "swept" }, "then": [{ "anim": "look" }] }
+      ]
+    },
+    { "id": "keyBoard", "meshes": ["key_board"], "focus": { "at": [-1.0, 1.886, 1.44], "r": 0.2 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "aprons", "meshes": ["aprons"], "focus": { "at": [-1.5, 1.87, 1.32], "r": 0.42 }, "rules": [{ "then": [{ "anim": "sway" }] }] },
+    { "id": "heights", "zone": [0.24, 1.84, 0.68, 0.36, 1.9, 1.22], "focus": { "at": [0.29, 1.87, 0.95], "r": 0.3 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "stool", "meshes": ["step_stool"], "focus": { "at": [-0.72, -1.14, 0.22], "r": 0.26 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "window", "meshes": ["window_frame", "backdrop_e", "curtains", "curtain_rod"], "focus": { "at": [1.9, -0.2, 1.5], "r": 0.7 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "herbs", "meshes": ["herb_pots"], "focus": { "at": [1.9, -0.13, 1.18], "r": 0.3 }, "rules": [{ "then": [{ "anim": "sway" }] }] },
+    { "id": "dresser", "meshes": ["dresser"], "focus": { "at": [-1.68, -0.7, 1.2], "r": 0.7 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "kettle", "meshes": ["copper_kettle"], "focus": { "at": [0.48, -1.58, 1.0], "r": 0.2 }, "rules": [{ "then": [{ "anim": "wobble" }] }] },
+    { "id": "kettleE", "meshes": ["kettle_e"], "focus": { "at": [1.62, -1.15, 1.0], "r": 0.2 }, "rules": [{ "then": [{ "anim": "wobble" }] }] },
+    { "id": "rack", "meshes": ["dish_rack"], "focus": { "at": [1.62, 0.56, 1.0], "r": 0.25 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "boxes", "meshes": ["boxes_ne", "rolled_rug"], "focus": { "at": [1.56, 1.45, 0.4], "r": 0.55 }, "rules": [{ "then": [{ "anim": "wobble" }] }] },
+    { "id": "papers", "meshes": ["newspaper_bundles"], "focus": { "at": [-1.66, 1.55, 0.2], "r": 0.35 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "shelf", "meshes": ["shelf_s", "crocks", "plant_se"], "focus": { "at": [-0.25, -1.79, 1.85], "r": 0.6 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "lamp", "meshes": ["pendant_lamp"], "focus": { "at": [-1.5, 0.6, 2.3], "r": 0.3 }, "rules": [{ "then": [{ "anim": "sway" }] }] }
+  ],
+  "steps": [
+    { "id": "milk", "target": "fridge", "done": { "has": "milk", "orFlag": "milkGiven" } },
+    { "id": "bowl", "target": "catBowl", "item": "milk", "after": ["milk"], "done": { "flag": "milkGiven" } },
+    { "id": "cutter", "target": "cutterPick", "after": ["bowl"], "done": { "has": "cutter", "orFlag": "cut" } },
+    { "id": "pin", "target": "pinPick", "done": { "has": "pin", "orFlag": "rolled" } },
+    { "id": "roll", "target": "bowl", "item": "pin", "after": ["pin"], "done": { "flag": "rolled" } },
+    { "id": "cut", "target": "board", "item": "cutter", "after": ["roll", "cutter"], "done": { "flag": "cut" } },
+    { "id": "oven", "target": "oven", "item": "tray", "after": ["cut"], "done": { "flag": "trayIn" } },
+    { "id": "dial", "target": "dial", "after": ["oven"], "done": { "flag": "baked" } },
+    { "id": "cookies", "target": "oven", "after": ["dial"], "done": { "has": "cookies", "orFlag": "served" } },
+    { "id": "serve", "target": "plate", "item": "cookies", "after": ["cookies"], "done": { "flag": "served" } },
+    { "id": "gap", "target": "gap", "item": "pin", "after": ["serve"], "done": { "flag": "swept" } },
+    { "id": "door", "target": "door", "item": "key", "after": ["gap"], "done": { "won": true } }
+  ]
+}

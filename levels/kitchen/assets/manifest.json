@@ -1,0 +1,7 @@
+{
+  "models": ["models/room_baked_d.glb", "models/room_live_d.glb"],
+  "lightmaps": {
+    "shell": { "on": "lm/shell_on.webp", "dark": "lm/shell_on.webp", "scale": 6.25 },
+    "furn": { "on": "lm/furn_on.webp", "dark": "lm/furn_on.webp", "scale": 4.25 }
+  }
+}

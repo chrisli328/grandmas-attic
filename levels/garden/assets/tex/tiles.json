@@ -1,0 +1,153 @@
+{
+  "_note": "Tiling textures: size = metres per repeat on UV0 (UV0 in metres). tint multiplies the texture; tint src keeps the model's own colour divided by mean (the texture's mean linear colour).",
+  "M_tile": {
+    "tex": "terracotta.webp",
+    "size": [
+      1.2,
+      1.2
+    ],
+    "tint": "#ffffff"
+  },
+  "M_terracotta": {
+    "tex": "terracotta.webp",
+    "size": [
+      0.5,
+      0.5
+    ],
+    "tint": "src",
+    "mean": [
+      0.7472,
+      0.1366,
+      0.0339
+    ]
+  },
+  "M_terracotta_dark": {
+    "tex": "terracotta.webp",
+    "size": [
+      0.5,
+      0.5
+    ],
+    "tint": "src",
+    "mean": [
+      0.7472,
+      0.1366,
+      0.0339
+    ]
+  },
+  "M_brick": {
+    "tex": "brick_red.webp",
+    "size": [
+      0.9,
+      0.868
+    ],
+    "tint": "#ffffff"
+  },
+  "M_path_brick": {
+    "tex": "brick_red.webp",
+    "size": [
+      0.9,
+      0.868
+    ],
+    "tint": "#ffffff"
+  },
+  "M_brick_white": {
+    "tex": "brick_white.webp",
+    "size": [
+      0.56,
+      1.33
+    ],
+    "tint": "#ffffff"
+  },
+  "M_bench_wood": {
+    "tex": "woodgrain_h.webp",
+    "size": [
+      0.6,
+      0.6
+    ],
+    "tint": "src",
+    "mean": [
+      0.6001,
+      0.6001,
+      0.6001
+    ]
+  },
+  "M_bed_wood": {
+    "tex": "woodgrain_h.webp",
+    "size": [
+      0.6,
+      0.6
+    ],
+    "tint": "src",
+    "mean": [
+      0.6001,
+      0.6001,
+      0.6001
+    ]
+  },
+  "M_oak": {
+    "tex": "woodgrain.webp",
+    "size": [
+      0.45,
+      0.45
+    ],
+    "tint": "src",
+    "mean": [
+      0.6001,
+      0.6001,
+      0.6001
+    ]
+  },
+  "M_walnut": {
+    "tex": "woodgrain.webp",
+    "size": [
+      0.45,
+      0.45
+    ],
+    "tint": "src",
+    "mean": [
+      0.6001,
+      0.6001,
+      0.6001
+    ]
+  },
+  "M_cork": {
+    "tex": "cork.webp",
+    "size": [
+      0.4,
+      0.4
+    ],
+    "tint": "#ffffff"
+  },
+  "M_cushion": {
+    "tex": "cushion.webp",
+    "size": [
+      0.36,
+      0.36
+    ],
+    "tint": "#ffffff"
+  },
+  "M_straw": {
+    "tex": "straw.webp",
+    "size": [
+      0.12,
+      0.147
+    ],
+    "tint": "#ffffff"
+  },
+  "M_coir": {
+    "tex": "coir.webp",
+    "size": [
+      0.4,
+      0.4
+    ],
+    "tint": "#ffffff"
+  },
+  "M_gingham": {
+    "tex": "gingham.webp",
+    "size": [
+      0.12,
+      0.12
+    ],
+    "tint": "#ffffff"
+  }
+}

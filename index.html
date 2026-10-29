@@ -5,19 +5,23 @@
   <script>
     // One link for every screen: a phone plays full screen here; a computer (a mouse and a wide
     // window) opens the game inside a phone-shaped frame. Inside that frame this page is not the
-    // top window, so it stays.
-    // home.html starts with this same script.
-    if (window.top === window) {
+    // top window, so it stays. A link that names no room (no ?level=) opens the home screen,
+    // which picks the room.
+    // home.html starts with this same script, without the home step.
+    (function () {
       const path = location.pathname;
-      if (!/\/$|\.html$/.test(path)) location.replace(path + "/" + location.search);
-      else if (matchMedia("(hover: hover) and (pointer: fine)").matches && innerWidth > innerHeight * 0.75) {
-        const q = new URLSearchParams(location.search);
-        const page = path.split("/").pop();
-        if (page && page !== "index.html") q.set("page", page);
-        const s = q.toString(); // not q.size: Safari before 17 has no size
-        location.replace("frame.html" + (s ? "?" + s : ""));
+      if (window.top === window) {
+        if (!/\/$|\.html$/.test(path)) return location.replace(path + "/" + location.search);
+        if (matchMedia("(hover: hover) and (pointer: fine)").matches && innerWidth > innerHeight * 0.75) {
+          const q = new URLSearchParams(location.search);
+          const page = path.split("/").pop();
+          if (page && page !== "index.html") q.set("page", page);
+          const s = q.toString(); // not q.size: Safari before 17 has no size
+          return location.replace("frame.html" + (s ? "?" + s : ""));
+        }
       }
-    }
+      if (!new URLSearchParams(location.search).has("level")) location.replace("home.html" + location.search);
+    })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#1a110c" />
@@ -56,6 +60,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/main.8ee0e49002.js"></script>
+  <script type="module" src="js/main.e1792bf6a1.js"></script>
 </body>
 </html>
