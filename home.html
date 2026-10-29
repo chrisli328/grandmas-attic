@@ -20,51 +20,94 @@
     }
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a110c" />
+  <meta name="theme-color" content="#5bc0f5" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Grandma's House</title>
-  <link rel="stylesheet" href="meta/home.9c0189c88f.css" />
-  <link rel="preload" as="image" href="meta/art/home_bg.webp" />
+  <link rel="stylesheet" href="meta/font.885dab4bb0.css" />
+  <link rel="stylesheet" href="meta/home.fd7357fe61.css" />
+  <link rel="preload" as="image" href="meta/art/home_island.webp" />
 </head>
 <body>
-  <!-- The home screen: grandma's wall, one picture frame per room. A frame holds the keepsake once
-       its room is done; the big button plays the next room. Built by meta/home.js. -->
-  <main id="wall">
-    <svg id="yarn" aria-hidden="true"></svg>
-    <div id="frames"></div>
+  <!-- The home screen, laid out like a casual mobile game's: grandma's cottage on its island with
+       one badge per room on the house, the player's bar on top, feature buttons down the sides, the
+       big Play button and the tab bar. Only Play, the rooms, the album and the coins do anything;
+       the other buttons say "Coming soon" or the level they open at. Built by meta/home.js. -->
+  <main id="scene">
+    <div id="rooms"></div>
     <button id="cat" aria-label="cat"></button>
   </main>
 
-  <div id="hud">
-    <div id="coins" class="pill"><img src="meta/icons/er-coin.png" alt="" /><b>0</b></div>
-  </div>
+  <header id="top" class="ui">
+    <button id="avatar" class="later" data-say="Coming soon"><img src="meta/icons/er-avatar.png" alt="" /></button>
+    <button id="lives" class="pill later" data-say="Lives full"><span class="heart"><img src="meta/icons/er-heart.png" alt="" /><b>5</b></span><span class="word">Full</span></button>
+    <div id="coins" class="pill"><img src="meta/icons/er-coin.png" alt="" /><b>0</b><button class="plus later" data-say="Shop coming soon" aria-label="more coins"></button></div>
+  </header>
 
-  <div id="dock">
-    <button id="play" class="big"><span>Level 1</span></button>
-  </div>
+  <button id="banner" class="ui later" data-unlock="5"><img src="meta/icons/er-lock.png" alt="" /><span>Unlocks at Level 5</span></button>
 
-  <!-- A room just done: its keepsake and coins, collected with one tap. -->
+  <nav id="left" class="side ui">
+    <button id="albumBtn" class="feat"><img src="meta/icons/er-album.png" alt="" /><span>Album</span><i class="count">0/3</i></button>
+    <button class="feat later" data-say="Coming soon"><img src="meta/icons/er-gift.png" alt="" /><span>Daily</span><i class="dot"></i></button>
+    <button class="feat later event" data-say="Coming soon"><img src="meta/icons/er-cupcake.png" alt="" /><span class="timer">24:00:00</span></button>
+  </nav>
+  <nav id="right" class="side ui">
+    <button class="feat later" data-say="Coming soon"><img src="meta/icons/er-chest.png" alt="" /><span>Offer</span></button>
+    <button class="feat later locked" data-unlock="10"><img src="meta/icons/er-team.png" alt="" /><img class="lock" src="meta/icons/er-lock.png" alt="" /><span>Level 10</span></button>
+    <button class="feat later locked" data-unlock="20"><img src="meta/icons/er-trophy.png" alt="" /><img class="lock" src="meta/icons/er-lock.png" alt="" /><span>Level 20</span></button>
+  </nav>
+
+  <section id="dock" class="ui">
+    <div id="chapter">
+      <img class="here" src="meta/icons/er-house.png" alt="" />
+      <div class="bar"><i></i><b>0/3</b></div>
+      <button class="next later" data-unlock="4" aria-label="next house"><img src="meta/icons/er-house.png" alt="" /><img class="lock" src="meta/icons/er-lock.png" alt="" /></button>
+    </div>
+    <button id="play" class="big"><span class="tag">Level 1</span><span class="word">Play</span></button>
+  </section>
+
+  <nav id="tabs" class="ui">
+    <button class="later" data-say="Shop coming soon"><img src="meta/icons/er-chest.png" alt="" /></button>
+    <button id="albumTab"><img src="meta/icons/er-album.png" alt="" /></button>
+    <button class="on"><img src="meta/icons/er-house.png" alt="" /><span>Home</span></button>
+    <button class="later locked" data-unlock="10"><img src="meta/icons/er-team.png" alt="" /><img class="lock" src="meta/icons/er-lock.png" alt="" /></button>
+    <button class="later locked" data-unlock="20"><img src="meta/icons/er-trophy.png" alt="" /><img class="lock" src="meta/icons/er-lock.png" alt="" /></button>
+  </nav>
+
+  <div id="toast"></div>
+
+  <!-- A room just done: its keepsake photo and coins; one tap sends them home. -->
   <div id="reward" class="layer">
     <div class="card">
+      <h1 class="title">New Photo!</h1>
       <div class="photo"><img alt="" /></div>
       <div class="gain"><img src="meta/icons/er-coin.png" alt="" /><b>+15</b></div>
-      <button id="collect" class="big"><span>Collect</span></button>
+      <p class="hint">Tap to continue</p>
     </div>
   </div>
 
-  <!-- A keepsake on the wall, looked at close; the round button plays its room again. -->
+  <!-- The album: one photo per room, the next house still locked. -->
+  <div id="album" class="layer">
+    <div class="panel">
+      <h2>Album</h2>
+      <button class="close" aria-label="close"></button>
+      <p class="house">Grandma's House</p>
+      <div class="slots"></div>
+    </div>
+  </div>
+
+  <!-- A keepsake looked at close; the round button plays its room again. -->
   <div id="look" class="layer">
     <div class="card">
       <div class="photo"><img alt="" /></div>
       <button id="replay" class="round" aria-label="play again">
         <svg viewBox="0 0 48 48" aria-hidden="true">
-          <path d="M35.5 17.5A13 13 0 1 0 37 28" fill="none" stroke="#2a1a10" stroke-width="5" stroke-linecap="round"/>
-          <path d="M38.5 8.5 37 19.5 26.5 17z" fill="#2a1a10" stroke="#2a1a10" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M35.5 17.5A13 13 0 1 0 37 28" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round"/>
+          <path d="M38.5 8.5 37 19.5 26.5 17z" fill="#fff" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
         </svg>
       </button>
     </div>
   </div>
 
-  <script type="module" src="meta/home.9564ae25ec.js"></script>
+  <script type="module" src="meta/home.a60605ca28.js"></script>
 </body>
 </html>
