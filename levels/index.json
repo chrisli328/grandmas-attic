@@ -1,0 +1,5 @@
+{ "levels": [
+  { "id": "attic", "title": "Grandma's Attic", "data": "levels/attic.json", "assets": "assets/", "icons": "assets/icons/", "keepsake": "assets/tex/pic_photo_final.webp", "ready": true },
+  { "id": "kitchen", "title": "Grandma's Kitchen", "data": "levels/kitchen/level.json", "assets": "levels/kitchen/assets/", "icons": "levels/kitchen/icons/", "keepsake": "levels/kitchen/keepsake.webp", "ready": false },
+  { "id": "garden", "title": "Grandma's Greenhouse", "data": "levels/garden/level.json", "assets": "levels/garden/assets/", "icons": "levels/garden/icons/", "keepsake": "levels/garden/keepsake.webp", "ready": false }
+] }

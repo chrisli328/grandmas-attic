@@ -1,0 +1,1 @@
+{"models":["models/room_baked_d.glb","models/room_live_d.glb"],"lightmaps":{"shell":{"on":"lm/shell_on.webp","dark":"lm/shell_dark.webp","scale":8.5},"furn":{"on":"lm/furn_on.webp","dark":"lm/furn_dark.webp","scale":2.0}},"attach":{"teddy_zip":"teddy","bulb_chain":"bulb_rig"}}

@@ -1,0 +1,20 @@
+{
+  "_note": "Tiling textures: size = metres covered by one texture repeat on UV0 (UV0 is in metres). tint multiplies the texture (linear-ish sRGB hex); tint src keeps the model's own colour divided by mean, the texture's mean linear colour, so a grey grain adds only light and dark. UV0 V runs up on walls, so woodgrain runs vertical and woodgrain_h along long trim.",
+  "M_oak": { "tex": "woodgrain.webp", "size": [0.45, 0.45], "tint": "src", "mean": [0.6001, 0.6001, 0.6001] },
+  "M_walnut": { "tex": "woodgrain.webp", "size": [0.45, 0.45], "tint": "src", "mean": [0.6001, 0.6001, 0.6001] },
+  "M_door_wood": { "tex": "woodgrain.webp", "size": [0.6, 0.6], "tint": "src", "mean": [0.6001, 0.6001, 0.6001] },
+  "M_trim_wood": { "tex": "woodgrain_h.webp", "size": [0.6, 0.6], "tint": "src", "mean": [0.6001, 0.6001, 0.6001] },
+  "M_wallpaper": { "tex": "wallpaper_light.webp", "size": [0.62, 0.62], "tint": "#ffffff" },
+  "M_wallpaper_ghost": { "tex": "wallpaper_light.webp", "size": [0.62, 0.62], "tint": "#fff6ea" },
+  "M_wainscot": { "tex": "wainscot.webp", "size": [0.56, 0.56], "tint": "#ffffff" },
+  "M_floor": { "tex": "floor_light.webp", "size": [0.72, 0.72], "tint": "#ffffff" },
+  "M_ceiling": { "tex": "ceiling_light.webp", "size": [0.66, 0.66], "tint": "#ffffff" },
+  "M_beam": { "tex": "beam_light.webp", "size": [0.55, 0.55], "tint": "#ffffff" },
+  "M_granny": { "tex": "granny.webp", "size": [0.39, 0.39], "tint": "#ffffff" },
+  "M_scarf": { "tex": "scarf.webp", "size": [0.30, 0.18], "tint": "#ffffff" },
+  "M_cardigan": { "tex": "cardigan.webp", "size": [0.24, 0.24], "tint": "#ffffff" },
+  "M_curtain": { "tex": "curtain.webp", "size": [0.42, 0.42], "tint": "#ffffff" },
+  "M_cardboard": { "tex": "cardboard.webp", "size": [0.45, 0.45], "tint": "#ffffff" },
+  "M_sheet": { "tex": "sheet.webp", "size": [0.9, 0.9], "tint": "#d4e3f2" },
+  "M_rug": { "tex": "rug.webp", "size": [1, 1], "tint": "#ffffff", "pic": true }
+}

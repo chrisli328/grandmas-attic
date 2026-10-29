@@ -1,0 +1,145 @@
+{
+  "id": "attic-vs1",
+  "title": "Grandma's Attic",
+  "story_for_agents": "Grandma has moved out; the attic is packed into boxes and dust sheets. The photos on the wall show her with you as a baby, a child and on a rooftop, always under the stars, and one photo is missing (a pale patch and a bare nail). The cat knocks the cookie tin down, your old teddy hides the star disc, grandma's music box fills the dark attic with stars, and one star leads you to the loose floorboard with the missing photo and the door key. No words: the room, the cat, the light and the music tell it.",
+  "coords": "Blender metres, Z up: +Y north (door wall), -Y south (shelf wall), +X east (window), -X west (desk). Camera at (0, 0, 1.30). A mesh belongs to the first visible object that lists it; fx.js moves ownership when a prop changes place (crank or disc into the music box, teddy to the chair, photo to the nail, yarn out of the basket). The hint ring sits on the thing's meshes; \"ring\" overrides that point when the meshes are long (the light's cord and pull chain).",
+  "camera": { "eye": [0, 0, 1.3], "startYaw": 0, "startPitch": -4, "fov": 78, "back": 0.55 },
+  "hints": 3,
+  "intro": [{ "fx": "intro" }],
+  "pickNodes": { "crankPick": "crank", "teddyPick": "teddy", "photoPick": "photo_final", "keyPick": "key" },
+  "focusFirst": ["boxOpen", "discIn", "crankIn", "hangPhoto", "boardLift", "yarnRoll"],
+  "memoryFlag": "memory",
+  "coach": { "target": "door", "icon": "key" },
+  "items": {
+    "crank": {},
+    "scissors": {},
+    "teddy": {
+      "inspect": [
+        { "then": [{ "fx": "unzip" }, { "take": "teddy" }, { "give": "disc" }, { "set": { "obj": "teddySeat", "state": "shown" } }, { "flag": "unzipped" }] }
+      ]
+    },
+    "disc": {},
+    "photo": {},
+    "key": {}
+  },
+  "thoughts": ["cat", "bulb"],
+  "objects": [
+    {
+      "id": "door", "meshes": ["door"], "focus": { "at": [0.3, 1.88, 1.05], "r": 0.75 }, "state": "locked",
+      "rules": [
+        { "if": { "state": "locked", "using": "key" }, "then": [{ "set": { "state": "open" } }, { "fx": "doorOpen" }, { "win": true }] },
+        { "if": { "state": "locked" }, "then": [{ "anim": "rattle" }, { "think": "key" }] }
+      ]
+    },
+    { "id": "frame1", "zone": [-1.69, 1.85, 1.33, -1.41, 1.92, 1.67], "focus": { "at": [-1.55, 1.89, 1.5], "r": 0.22 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "frame2", "zone": [-1.36, 1.85, 1.33, -1.08, 1.92, 1.67], "focus": { "at": [-1.22, 1.89, 1.5], "r": 0.22 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "frame3", "zone": [-1.03, 1.85, 1.33, -0.75, 1.92, 1.67], "focus": { "at": [-0.89, 1.89, 1.5], "r": 0.22 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    {
+      "id": "nail", "zone": [-0.71, 1.84, 1.32, -0.41, 1.92, 1.72], "focus": { "at": [-0.56, 1.89, 1.5], "r": 0.26 }, "state": "empty",
+      "rules": [
+        { "if": { "state": "empty", "using": "photo" }, "then": [{ "set": { "state": "hung" } }, { "fx": "hangPhoto" }, { "flag": "memory" }] },
+        { "if": { "state": "empty" }, "then": [{ "anim": "look" }, { "think": "photo" }] },
+        { "if": { "state": "hung" }, "then": [{ "anim": "look" }] }
+      ]
+    },
+    { "id": "coat", "meshes": ["cardigan", "raincoat", "coat_hooks"], "focus": { "at": [1.32, 1.8, 1.45], "r": 0.5 }, "rules": [{ "then": [{ "anim": "sway" }] }] },
+    { "id": "cabinet", "meshes": ["dresser_sheet"], "focus": { "at": [-1.55, 1.6, 0.6], "r": 0.6 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    {
+      "id": "box", "meshes": ["box_body", "box_flap_n", "box_flap_s", "box_flap_e", "box_flap_w", "box_tape"], "focus": { "at": [-0.9, 1.55, 0.25], "r": 0.42 }, "state": "taped",
+      "rules": [
+        { "if": { "state": "taped", "using": "scissors" }, "then": [{ "fx": "boxOpen" }, { "set": { "state": "open" } }, { "set": { "obj": "teddyPick", "state": "shown" } }, { "flag": "boxOpen" }] },
+        { "if": { "state": "taped" }, "then": [{ "anim": "shake" }, { "think": "scissors" }] },
+        { "if": { "state": "open" }, "then": [{ "anim": "wobble" }] }
+      ]
+    },
+    {
+      "id": "teddyPick", "meshes": ["teddy", "teddy_zip"], "focus": { "at": [-0.9, 1.55, 0.35], "r": 0.4 }, "state": "hidden",
+      "rules": [{ "if": { "state": "shown" }, "then": [{ "set": { "state": "hidden" } }, { "give": "teddy" }] }]
+    },
+    {
+      "id": "bulb", "meshes": ["bulb_rig", "bulb_chain"], "zone": [-0.12, 1.22, 1.6, 0.16, 1.48, 2.6], "focus": { "at": [0.02, 1.35, 1.95], "r": 0.5 }, "ring": [0.0, 1.35, 2.22], "state": "on",
+      "rules": [
+        { "if": { "state": "on", "flags": ["wound"] }, "then": [{ "set": { "state": "off" } }, { "flag": "dark" }, { "flag": "stars" }, { "set": { "obj": "floorboard", "state": "glow" } }, { "fx": "starsReveal" }] },
+        { "if": { "state": "on" }, "then": [{ "set": { "state": "off" } }, { "flag": "dark" }, { "fx": "lightsOff" }] },
+        { "if": { "state": "off", "notFlags": ["stars"] }, "then": [{ "set": { "state": "on" } }, { "unflag": "dark" }, { "fx": "lightsOn" }] },
+        { "if": { "state": "off" }, "then": [{ "anim": "pullChain" }] }
+      ]
+    },
+    { "id": "window", "meshes": ["window_frame", "backdrop_sky", "curtains", "curtain_rod"], "focus": { "at": [1.9, 0, 1.5], "r": 0.7 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "rocker", "meshes": ["rocking_chair"], "focus": { "at": [1.3, -0.85, 0.6], "r": 0.7 }, "rules": [{ "then": [{ "anim": "rock" }] }] },
+    { "id": "telescope", "meshes": ["telescope"], "focus": { "at": [1.35, 0.95, 1.1], "r": 0.6 }, "rules": [{ "then": [{ "anim": "swivel" }] }] },
+    { "id": "teddySeat", "meshes": [], "focus": { "at": [1.3, -0.85, 0.65], "r": 0.5 }, "state": "hidden", "rules": [{ "then": [{ "anim": "squish" }] }] },
+    {
+      "id": "basket", "meshes": ["basket", "yarn_red"], "focus": { "at": [1.42, -0.12, 0.15], "r": 0.4 }, "state": "full",
+      "rules": [
+        { "if": { "state": "full" }, "then": [{ "fx": "yarnRoll" }, { "set": { "state": "taken" } }, { "set": { "obj": "yarn", "state": "rolled" } }, { "give": "scissors" }] },
+        { "if": { "state": "taken" }, "then": [{ "anim": "wobble" }] }
+      ]
+    },
+    { "id": "yarn", "meshes": [], "state": "inBasket", "rules": [{ "if": { "state": "rolled" }, "then": [{ "anim": "nudge" }] }] },
+    {
+      "id": "cat", "meshes": ["cat_body", "cat_head", "cat_eye_l", "cat_eye_r", "cat_leg_fl", "cat_leg_fr", "cat_leg_bl", "cat_leg_br", "cat_tail_1", "cat_tail_2", "cat_tail_3", "cat_tail_4"],
+      "focus": { "at": [0.6, -1.72, 1.95], "r": 0.6 }, "state": "top",
+      "rules": [
+        { "if": { "state": "top" }, "then": [{ "fx": "catLeap" }, { "set": { "state": "floor" } }, { "set": { "obj": "tin", "state": "fallen" } }, { "set": { "obj": "crankPick", "state": "shown" } }, { "flag": "catDown" }] },
+        { "if": { "state": "floor" }, "then": [{ "anim": "purr" }] }
+      ]
+    },
+    {
+      "id": "tin", "meshes": ["tin_body", "tin_lid"], "focus": { "at": [0.3, -1.72, 1.92], "r": 0.35 }, "state": "shelf",
+      "rules": [
+        { "if": { "state": "shelf" }, "then": [{ "anim": "reach" }, { "think": "cat" }] },
+        { "if": { "state": "fallen" }, "then": [{ "anim": "nudge" }] }
+      ]
+    },
+    { "id": "crankPick", "meshes": ["crank"], "state": "hidden", "rules": [{ "if": { "state": "shown" }, "then": [{ "set": { "state": "hidden" } }, { "give": "crank" }] }] },
+    { "id": "drawing1", "zone": [-1.31, -1.92, 1.26, -1.05, -1.86, 1.58], "focus": { "at": [-1.18, -1.89, 1.42], "r": 0.2 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "drawing2", "zone": [-0.93, -1.92, 1.26, -0.67, -1.86, 1.58], "focus": { "at": [-0.8, -1.89, 1.42], "r": 0.2 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "drawing3", "zone": [-0.55, -1.92, 1.26, -0.29, -1.86, 1.58], "focus": { "at": [-0.42, -1.89, 1.42], "r": 0.2 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "chart", "meshes": ["starchart"], "focus": { "at": [-1.89, 0.25, 1.62], "r": 0.36 }, "rules": [{ "then": [{ "anim": "look" }] }] },
+    { "id": "bookshelf", "meshes": ["bookshelf"], "focus": { "at": [0.55, -1.72, 1.1], "r": 0.8 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "trunk", "meshes": ["trunk"], "focus": { "at": [-1.05, -1.6, 0.35], "r": 0.5 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "sheet", "meshes": ["sheet_chair"], "focus": { "at": [-1.25, -1.2, 0.5], "r": 0.6 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    { "id": "desk", "meshes": ["desk", "desk_chair", "desk_lamp"], "focus": { "at": [-1.6, 0.25, 0.85], "r": 0.6 }, "rules": [{ "then": [{ "anim": "jiggle" }] }] },
+    {
+      "id": "projector", "meshes": ["musicbox"], "focus": { "at": [-1.62, 0.15, 0.9], "r": 0.26 }, "state": "empty",
+      "rules": [
+        { "if": { "state": "empty", "using": "disc" }, "then": [{ "set": { "state": "disc" } }, { "flag": "discIn" }, { "fx": "discIn" }] },
+        { "if": { "state": "empty", "using": "crank" }, "then": [{ "set": { "state": "crank" } }, { "flag": "crankIn" }, { "fx": "crankIn" }] },
+        { "if": { "state": "disc", "using": "crank", "flags": ["dark"] }, "then": [{ "set": { "state": "wound" } }, { "flag": "crankIn" }, { "flag": "wound" }, { "flag": "stars" }, { "set": { "obj": "floorboard", "state": "glow" } }, { "fx": "crankIn" }, { "fx": "starsReveal" }] },
+        { "if": { "state": "crank", "using": "disc", "flags": ["dark"] }, "then": [{ "set": { "state": "wound" } }, { "flag": "discIn" }, { "flag": "wound" }, { "flag": "stars" }, { "set": { "obj": "floorboard", "state": "glow" } }, { "fx": "discIn" }, { "fx": "starsReveal" }] },
+        { "if": { "state": "disc", "using": "crank" }, "then": [{ "set": { "state": "wound" } }, { "flag": "crankIn" }, { "flag": "wound" }, { "fx": "crankIn" }, { "fx": "wind" }] },
+        { "if": { "state": "crank", "using": "disc" }, "then": [{ "set": { "state": "wound" } }, { "flag": "discIn" }, { "flag": "wound" }, { "fx": "discIn" }, { "fx": "wind" }] },
+        { "if": { "state": "empty" }, "then": [{ "anim": "wobble" }, { "think": "disc" }] },
+        { "if": { "state": "disc" }, "then": [{ "anim": "wobble" }, { "think": "crank" }] },
+        { "if": { "state": "crank" }, "then": [{ "anim": "wobble" }, { "think": "disc" }] },
+        { "if": { "state": "wound", "notFlags": ["dark"] }, "then": [{ "fx": "wind" }, { "think": "bulb" }] },
+        { "if": { "state": "wound" }, "then": [{ "fx": "wind" }] }
+      ]
+    },
+    {
+      "id": "floorboard", "meshes": ["floorboard"], "zone": [-0.42, -1.52, -0.02, 0.02, -0.93, 0.06], "zoneOff": ["open"], "focus": { "at": [-0.2, -1.22, 0.0], "r": 0.42 }, "state": "idle",
+      "rules": [
+        { "if": { "state": "glow" }, "then": [{ "fx": "boardLift" }, { "set": { "state": "open" } }, { "set": { "obj": "photoPick", "state": "shown" } }, { "set": { "obj": "keyPick", "state": "shown" } }, { "flag": "boardOpen" }] },
+        { "if": { "state": "idle" }, "then": [{ "anim": "creakBoard" }] },
+        { "if": { "state": "open" }, "then": [{ "anim": "look" }] }
+      ]
+    },
+    { "id": "photoPick", "meshes": ["photo_final"], "state": "hidden", "rules": [{ "if": { "state": "shown" }, "then": [{ "set": { "state": "hidden" } }, { "give": "photo" }] }] },
+    { "id": "keyPick", "meshes": ["key"], "state": "hidden", "rules": [{ "if": { "state": "shown" }, "then": [{ "set": { "state": "hidden" } }, { "give": "key" }] }] }
+  ],
+  "steps": [
+    { "id": "cat", "target": "cat", "done": { "flag": "catDown" } },
+    { "id": "crank", "target": "crankPick", "after": ["cat"], "done": { "has": "crank", "orFlag": "crankIn" } },
+    { "id": "basket", "target": "basket", "done": { "has": "scissors", "orFlag": "boxOpen" } },
+    { "id": "box", "target": "box", "item": "scissors", "after": ["basket"], "done": { "flag": "boxOpen" } },
+    { "id": "teddy", "target": "teddyPick", "after": ["box"], "done": { "has": "teddy", "orFlag": "unzipped" } },
+    { "id": "unzip", "inspect": "teddy", "after": ["teddy"], "done": { "flag": "unzipped" } },
+    { "id": "disc", "target": "projector", "item": "disc", "after": ["unzip"], "done": { "flag": "discIn" } },
+    { "id": "wind", "target": "projector", "item": "crank", "after": ["crank", "disc"], "done": { "flag": "wound" } },
+    { "id": "dark", "target": "bulb", "after": ["wind"], "done": { "flag": "stars" } },
+    { "id": "board", "target": "floorboard", "after": ["dark"], "done": { "flag": "boardOpen" } },
+    { "id": "key", "target": "keyPick", "after": ["board"], "done": { "has": "key", "orFlag": "won" } },
+    { "id": "door", "target": "door", "item": "key", "after": ["key"], "done": { "won": true } }
+  ]
+}

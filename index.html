@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script>
+    // One link for every screen: a phone plays full screen here; a computer (a mouse and a wide
+    // window) opens the game inside a phone-shaped frame. Inside that frame this page is not the
+    // top window, so it stays.
+    // home.html starts with this same script.
+    if (window.top === window) {
+      const path = location.pathname;
+      if (!/\/$|\.html$/.test(path)) location.replace(path + "/" + location.search);
+      else if (matchMedia("(hover: hover) and (pointer: fine)").matches && innerWidth > innerHeight * 0.75) {
+        const q = new URLSearchParams(location.search);
+        const page = path.split("/").pop();
+        if (page && page !== "index.html") q.set("page", page);
+        const s = q.toString(); // not q.size: Safari before 17 has no size
+        location.replace("frame.html" + (s ? "?" + s : ""));
+      }
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a110c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Grandma's Attic</title>
+  <link rel="stylesheet" href="css/style.c8e6fa7d97.css" />
+</head>
+<body>
+  <canvas id="view"></canvas>
+  <div id="vignette"></div>
+
+  <button id="hint" aria-label="hint">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M24 6c-7.2 0-13 5.6-13 12.6 0 4.6 2.4 7.6 4.6 9.9 1.6 1.7 2.4 3 2.4 5V35h12v-1.5c0-2 .8-3.3 2.4-5 2.2-2.3 4.6-5.3 4.6-9.9C37 11.6 31.2 6 24 6z" fill="#ffd27a" stroke="#111" stroke-width="2.8" stroke-linejoin="round"/>
+      <path d="M19 38.5h10M20.5 42.5h7" stroke="#111" stroke-width="2.8" stroke-linecap="round"/>
+      <path d="M19.5 18.5c0-2.8 2-5 4.6-5.4" stroke="#fff4d6" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span class="dots"><i class="dot"></i><i class="dot"></i><i class="dot"></i></span>
+  </button>
+
+  <div id="tray"></div>
+
+  <div id="title">
+    <div class="card">
+      <h1>Grandma's Attic</h1>
+      <div id="loadbar"><i></i></div>
+      <div class="play" aria-label="play"></div>
+    </div>
+  </div>
+
+  <div id="win">
+    <div class="card">
+      <h2>Escaped!</h2>
+      <div class="memory"><img data-src="assets/tex/pic_photo_final.webp" alt="" /></div>
+      <button id="again">Play again</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.8ee0e49002.js"></script>
+</body>
+</html>
